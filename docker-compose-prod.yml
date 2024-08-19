@@ -1,0 +1,23 @@
+services:
+  web:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    env_file:
+      - .envs/.django
+    depends_on:
+      redis:
+        condition: service_started
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "83:80"
+    depends_on:
+      web:
+        condition: service_started
+
+  redis:
+    image: redis:7.0.2-alpine

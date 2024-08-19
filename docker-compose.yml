@@ -1,0 +1,31 @@
+services:
+  web:
+    build:
+      context: backend
+      dockerfile: local.Dockerfile
+    env_file:
+      - .envs/.django
+    command: sh -c "python manage.py migrate &&
+                    python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_started
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: local.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  redis:
+    image: redis:7.0.2-alpine
+    ports:
+      - "6379:6379"
