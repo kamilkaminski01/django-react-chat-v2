@@ -72,57 +72,54 @@ const Chat = () => {
 
   return (
     <main className="chat">
-      <div className="chat-items">
-        <div className="chat__header">Django & React Chat</div>
-        <div ref={chatRef} className="chat__messages">
-          {messages.map((message, index) => (
-            <div
-              className={classNames('chat__message', {
-                centered: message.command !== ECommands.Message,
-                blue: message.user === username && message.command === ECommands.Message,
-                gray: message.user !== username && message.command === ECommands.Message
-              })}
-              key={index}>
-              {message.command === ECommands.Message ? (
-                <>
-                  <p className="message__user">{message.user}</p>
-                  <p className="message__content">{message.message}</p>
-                </>
-              ) : (
-                <p className="message__notification">{message.message}</p>
-              )}
-            </div>
-          ))}
-        </div>
-        <form className="chat__form" onSubmit={handleSubmit}>
-          <>
-            {usernameProvided ? (
+      <div className="chat__header">Django & React Chat</div>
+      <div ref={chatRef} className="chat__messages">
+        {messages.map((message, index) => (
+          <div
+            className={classNames('chat__message', {
+              centered: message.command !== ECommands.Message
+            })}
+            key={index}>
+            {message.command === ECommands.Message ? (
               <>
-                <textarea
-                  placeholder="Send a message"
-                  className="chat__input"
-                  autoFocus={true}
-                  autoComplete="off"
-                  value={newMessage}
-                  onKeyDown={handleKeyDown}
-                  onChange={(event) => setNewMessage(event.target.value)}
-                />
-                <img src={SendIcon} className="chat__send" alt="send" onClick={handleSubmit} />
+                <p className="message__user">{message.user}</p>
+                <p className="message__content">{message.message}</p>
               </>
             ) : (
-              <input
-                type="text"
-                placeholder="Provide your username and press enter"
-                className="chat__input chat__input--username"
-                maxLength={10}
-                autoFocus={true}
-                onKeyDown={handleUsernameSubmission}
-                onChange={(event) => setUsername(event.target.value)}
-              />
+              <p className="message__notification">{message.message}</p>
             )}
-          </>
-        </form>
+          </div>
+        ))}
       </div>
+      <form className="chat__form" onSubmit={handleSubmit}>
+        <>
+          {usernameProvided ? (
+            <>
+              <textarea
+                placeholder="Send a message"
+                className="chat__input"
+                autoFocus={true}
+                rows={1}
+                autoComplete="off"
+                value={newMessage}
+                onKeyDown={handleKeyDown}
+                onChange={(event) => setNewMessage(event.target.value)}
+              />
+              <img src={SendIcon} className="chat__send" alt="send" onClick={handleSubmit} />
+            </>
+          ) : (
+            <input
+              type="text"
+              placeholder="Provide your username and press enter"
+              className="chat__input chat__input--username"
+              maxLength={20}
+              autoFocus={true}
+              onKeyDown={handleUsernameSubmission}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          )}
+        </>
+      </form>
     </main>
   )
 }
