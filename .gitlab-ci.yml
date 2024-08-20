@@ -41,7 +41,7 @@ deploy:
   tags:
     - shell
   script:
-    - cd ~/$PROJECT/
+    - cd /root/$PROJECT/
     - echo -n $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
     - make down env=prod
     - make clear env=prod
