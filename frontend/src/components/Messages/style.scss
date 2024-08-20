@@ -1,0 +1,51 @@
+.chat__messages {
+  flex: 1;
+  padding: 1rem 0;
+  max-height: calc(100vh - ($header-height + $chat-form-height + $chat-form-bottom-margin));
+
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #161b22 transparent;
+
+  .chat__message {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 2rem;
+    font-size: 13.5px;
+    transition: ease-in-out 0.1s;
+
+    .message__content {
+      width: fit-content;
+      text-align: left;
+      word-break: break-all;
+    }
+
+    &.centered {
+      justify-content: center;
+      align-items: center;
+
+      .message__notification {
+        border-radius: 1em;
+        padding: 0.75em 3em;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+    }
+
+    .message__user {
+      font-size: 14px;
+      font-weight: 600;
+      color: $font-color;
+    }
+
+    &:hover {
+      &:not(.centered) {
+        background-color: rgba(148, 163, 184, 0.2);
+      }
+    }
+  }
+
+  @include for-tablet {
+    max-height: calc(100vh - ($header-height + $chat-form-height));
+  }
+}

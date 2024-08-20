@@ -1,0 +1,53 @@
+.chat__form {
+  display: flex;
+  height: $chat-form-height;
+  margin: 0 1rem $chat-form-bottom-margin 1rem;
+  background: #161b22;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+
+  .chat__input {
+    width: 100%;
+    padding: 1rem;
+    font: inherit;
+    color: #94a3b8;
+    background: inherit;
+    border-radius: inherit;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 14px;
+
+    &::placeholder {
+      color: inherit;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .chat__input--username {
+    text-align: center;
+  }
+
+  .chat__send {
+    margin: 0.75rem;
+    width: 18px;
+    cursor: pointer;
+
+    transition: transform ease-in-out 0.05s;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  @include for-tablet {
+    margin: unset;
+    border-radius: unset;
+    border: none;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+  }
+}

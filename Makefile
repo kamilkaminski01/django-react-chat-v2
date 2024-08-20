@@ -1,10 +1,6 @@
 .PHONY: build run recreate lint check frontcheck isort black flake8 mypy prod clear
 
-ifeq ($(env),prod)
-	COMPOSE_FILE=docker-compose-prod.yml
-else
-	COMPOSE_FILE=docker-compose.yml
-endif
+REGISTRY = kamil01/django-react-chat
 
 build:
 	docker compose build
@@ -46,5 +42,5 @@ prod:
 	docker compose -f docker-compose-prod.yml up -d
 
 clear:
-	docker compose -f $(COMPOSE_FILE) down -v
-	docker images -aq | xargs -r docker rmi
+	docker compose -f docker-compose-prod.yml down -v
+	docker images -q $(REGISTRY) | xargs -r docker rmi
