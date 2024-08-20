@@ -1,0 +1,48 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  IMAGES_REPO: $REGISTRY_USER/$PROJECT
+
+clean-code-check:
+  stage: test
+  image: docker:27.0
+  tags:
+    - docker
+  services:
+    - docker:27-dind
+  before_script:
+    - apk update && apk add make
+    - make build
+  script:
+    - make check
+
+build:
+  stage: build
+  image: docker:27.0
+  tags:
+    - docker
+  services:
+    - docker:27-dind
+  before_script:
+    - echo -n $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
+  script:
+    - docker build -t $IMAGES_REPO:backend backend
+    - docker build -t $IMAGES_REPO:frontend frontend
+    - docker push $IMAGES_REPO:backend
+    - docker push $IMAGES_REPO:frontend
+  after_script:
+    - docker logout
+
+deploy:
+  stage: deploy
+  tags:
+    - shell
+  script:
+    - cd $PROJECT/
+    - echo -n $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
+    - make down env=prod
+    - make clear env=prod
+    - make prod
