@@ -4,11 +4,10 @@ stages:
   - deploy
 
 variables:
-  IMAGES_REPO: $REGISTRY_USER/$PROJECT
+  IMAGES_REPO: $REGISTRY_USER/$CI_PROJECT_NAME
 
 clean-code-check:
   stage: test
-  image: docker:27.0
   tags:
     - docker
   services:
@@ -21,7 +20,6 @@ clean-code-check:
 
 build:
   stage: build
-  image: docker:27.0
   tags:
     - docker
   services:
@@ -41,7 +39,7 @@ deploy:
   tags:
     - shell
   script:
-    - cd /root/$PROJECT/
+    - cd /root/$CI_PROJECT_NAME/
     - echo -n $REGISTRY_PASSWORD | docker login -u $REGISTRY_USER --password-stdin
     - make down env=prod
     - make clear env=prod
