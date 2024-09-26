@@ -3,6 +3,9 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./logs/daphne:/backend/logs/daphne
     env_file:
       - .envs/.django
     depends_on:
@@ -13,6 +16,9 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./logs/nginx:/var/log/nginx
     ports:
       - "83:80"
     depends_on:
@@ -20,4 +26,5 @@ services:
         condition: service_started
 
   redis:
+    restart: always
     image: redis:7.0.2-alpine
